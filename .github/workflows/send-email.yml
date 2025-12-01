@@ -1,0 +1,32 @@
+name: Send Email Notification
+
+on:
+  push:
+    branches:
+      - main
+      - feature_a
+      - feature_b
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp-mail.outlook.com
+          server_port: 587
+          username: ${{secrets.EMAIL_USERNAME}}
+          password: ${{secrets.EMAIL_PASSWORD}}
+          subject: "Cambios subidos a rama ${{ github.ref_name }}"
+          to: tic_practica2@outlook.com
+          from: tic_practica2@outlook.com
+          body: |
+            Se han realizado cambios en la rama ${{ github.ref_name }}
+            
+            Detalles:
+            - Commit: ${{ github.sha }}
+            - Autor: ${{ github.actor }}
+            - Mensaje: ${{ github.event.head_commit.message }}
+            - Fecha: ${{ github.event.head_commit.timestamp }}
+
