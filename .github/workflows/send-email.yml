@@ -11,21 +11,14 @@ jobs:
   send-email:
     runs-on: ubuntu-latest
     steps:
-      - name: Send email
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: "ticpractic222@gmail.com"
-          password: "Practica2"
-          subject: "Cambios subidos a rama ${{ github.ref_name }}"
-          to: alessandrosantoro212121@gmail.com
-          from: alessandrosantoro212121@gmail.com
-          body: |
-            Se han realizado cambios en la rama ${{ github.ref_name }}
-            
-            Detalles:
-            - Commit: ${{ github.sha }}
-            - Autor: ${{ github.actor }}
-            - Mensaje: ${{ github.event.head_commit.message }}
-
+      - name: Send Email (Resend)
+        run: |
+          curl -X POST "https://api.resend.com/emails" \
+          -H "Authorization: Bearer ${{ secrets.RESEND_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"from\": \"GitHub Bot\",
+            \"to\": \"alessandrosantoro212121@gmail.com\",
+            \"subject\": \"Cambios subidos a rama ${GITHUB_REF_NAME}\",
+            \"text\": \"Se han realizado cambios en la rama ${GITHUB_REF_NAME}\n\nDetalles:\n- Commit: ${GITHUB_SHA}\n- Autor: ${GITHUB_ACTOR}\n- Mensaje: ${GITHUB_EVENT_HEAD_COMMIT_MESSAGE}\"
+          }"
