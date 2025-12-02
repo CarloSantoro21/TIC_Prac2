@@ -17,7 +17,7 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.RESEND_API_KEY }}" \
           -H "Content-Type: application/json" \
           -d "{
-            \"from\": \"GitHub Bot <alessandrosantoro212121@gmail.com>\",
+            \"from\": \"GitHub Bot <onboarding@resend.dev>\",
             \"to\": \"alessandrosantoro212121@gmail.com\",
             \"subject\": \"Cambios subidos a rama ${GITHUB_REF_NAME}\",
             \"text\": \"Se han realizado cambios en la rama ${GITHUB_REF_NAME}\n\nDetalles:\n- Commit: ${GITHUB_SHA}\n- Autor: ${GITHUB_ACTOR}\n- Mensaje: ${GITHUB_EVENT_HEAD_COMMIT_MESSAGE}\"
